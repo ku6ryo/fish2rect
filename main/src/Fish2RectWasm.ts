@@ -41,7 +41,6 @@ export class Fish2RectWasm {
   convert(sourceArray: Uint32Array, sw: number, sh: number, captureAngle: number, rw: number, rh: number, resultAngle: number) {
     const memory = this.getMemory()
     const instance = this.getInstance()
-    const start = new Date().getTime()
     const sourcePtr = (instance.exports.malloc as (len: number) => number)(sw * sh * 4)
     ;(new Uint32Array(memory.buffer)).set(sourceArray, sourcePtr >> 2)
     const resultPtr = (instance.exports.convert as (

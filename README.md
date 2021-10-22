@@ -9,7 +9,7 @@ result
 ![screenshot](./result.png)
 
 # WebAssembly implementation
-This repo has two implementations, one is pure TypeScript and another is WASM. The benchmark in the case of 100 times conversion is like the below. Surprizingly, TypeScript is mush faster than WASM. This can be because that the algorithm is pretty much simple so the overhead of exections in WASM can be larger (e.g. loading memory in WASM).
+This repo has two implementations, one is pure TypeScript and another is WASM. The benchmark in the case of 100 times conversion is like the below. Surprizingly, TypeScript is mush faster than WASM. This can be because the conversion algorithm is pretty much simple so the overhead of exections in WASM can be larger (e.g. loading memory in WASM).
 
 ```
 TypeScript: Finised in 1181 ms
