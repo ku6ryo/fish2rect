@@ -1,0 +1,16 @@
+{
+  "name": "fish2rect",
+  "version": "1.0.0",
+  "description": "Converts a fish eye photo image to rectangle.",
+  "scripts": {
+    "benchmark": "ts-node --transpile-only ./src/benchmark.ts"
+  },
+  "author": "Ryo Kuroyanagi",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "14",
+    "jimp": "^0.16.1",
+    "ts-node": "^10.3.1",
+    "typescript": "^4.4.4"
+  }
+}

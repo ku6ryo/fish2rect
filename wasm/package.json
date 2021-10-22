@@ -1,0 +1,13 @@
+{
+  "name": "wasm",
+  "version": "1.0.0",
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "scripts": {
+    "build": "asc ./assembly/index.ts --binaryFile fish2rect.wasm --optimize"
+  },
+  "devDependencies": {
+    "assemblyscript": "^0.19.17"
+  }
+}
