@@ -2,7 +2,7 @@ export function malloc(len: i32): usize {
   return heap.alloc(len)
 }
 
-export function free(ptr: i32): void {
+export function free(ptr: usize): void {
   heap.free(ptr)
 }
 
@@ -13,8 +13,8 @@ export function free(ptr: i32): void {
  * @param captureAngle Catupure angle of image. Deppeds on camera spec. Usually it's 2 * pi.
  * @param rw Result image width
  * @param rh Result image height
- * @param resultAngle View 
- * @returns 
+ * @param resultAngle View
+ * @returns
  */
 export function convert(
   ptr: i32,
@@ -24,35 +24,38 @@ export function convert(
   rw: i32,
   rh: i32,
   resultAngle: f32
-): ArrayBuffer {
-  const result = new Uint32Array(rw * rh)
+): StaticArray<u32> {
+  const result = new StaticArray<u32>(rw * rh)
+  const maxR = Mathf.tan(resultAngle / 2)
+  const halfInvCaptureAngle: f32 = 1.0 / (captureAngle / 2)
+  const ihwR: f32 = 0.5 * maxR / <f32>rw
+  const ihhR: f32 = 0.5 * maxR / <f32>rh
+  const swf: f32 = <f32>sw
+  const shf: f32 = <f32>sh
+
   for (let i = 0; i < rw; i++) {
     for (let j = 0; j < rh; j++) {
-      const maxR = Math.tan(resultAngle / 2)
       // Result position
-      const x = ((i + 0.5) / rw * 2 - 1) * maxR
-      const y = ((j + 0.5) / rh * 2 - 1) * maxR
-      const r = Math.sqrt(x * x + y * y)
-      // cos(theta)
-      const ct = x / r
-      // sin(theta)
-      const st = y / r
+      const x = (<f32>i + 0.5) * ihwR - maxR
+      const y = (<f32>j + 0.5) * ihhR - maxR
+      const r = Mathf.sqrt(x * x + y * y)
+      const invR: f32 = 1.0 / r
       // Angle from vertical axis
-      const phi = Math.atan(r)
+      const phi = Mathf.atan(r)
       // Source position
-      const sr = phi / (captureAngle / 2)
-      const sx = sr * ct
-      const sy = sr * st
+      const sr = phi * halfInvCaptureAngle
+      const sx = (sr * invR) * x
+      const sy = (sr * invR) * y
       // Sorce image pixel index
-      const si = ((sx * sw + sw) as i32) >> 1
-      const sj = ((sy * sh + sh) as i32) >> 1
+      const si = ((sx * swf + swf) as i32) >> 1
+      const sj = ((sy * shf + shf) as i32) >> 1
 
       let color = 0x000000FF
-      if (si >= 0 && si < sw && sj >= 0 && sj < sh) {
+      if (<u32>si < <u32>sw && <u32>sj < <u32>sh) {
         color = load<i32>(ptr + (si * sw + sj) * 4)
       }
-      result[i * rw + j] = color
+      unchecked(result[i * rw + j] = color)
     }
   }
-  return result.buffer
+  return result
 }

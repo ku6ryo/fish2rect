@@ -5,7 +5,7 @@
   "license": "MIT",
   "description": "",
   "scripts": {
-    "build": "asc ./assembly/index.ts --binaryFile fish2rect.wasm --optimize"
+    "build": "asc ./assembly/index.ts --binaryFile fish2rect.wasm --optimize --noAssert --converge"
   },
   "devDependencies": {
     "assemblyscript": "^0.19.17"
