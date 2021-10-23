@@ -2,7 +2,7 @@ Converts a fish eye image to rect.
 
 This conversion assumes that pixels are mapped equally by angles from the camera direction axis.
 
-source downloaded from (this page)[https://www.eso.org/public/images/potw1049a/]
+source downloaded from [this page](https://www.eso.org/public/images/potw1049a/)
 ![screenshot](./main/src/fish.png)
 
 result
